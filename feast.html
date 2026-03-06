@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>吃席菜单 - 随机生成</title>
+  <link rel="stylesheet" href="feast-styles.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>🎊 吃席菜单生成器</h1>
+      <p class="subtitle">一键生成12道菜的宴席菜单，荤素搭配，营养均衡</p>
+    </header>
+
+    <section class="control-panel">
+      <div class="mode-switch">
+        <button class="mode-btn active" id="randomMode">🎲 随机生成</button>
+        <button class="mode-btn" id="customMode">✏️ 自选菜品</button>
+      </div>
+      <button class="generate-btn" id="generateBtn">
+        <span class="btn-icon">🎲</span>
+        <span class="btn-text">随机生成菜单</span>
+      </button>
+      <button class="ai-btn" id="aiBtn" disabled>
+        <span class="btn-icon">🤖</span>
+        <span class="btn-text">AI时间规划</span>
+      </button>
+      <button class="export-btn" id="exportBtn" disabled>
+        <span class="btn-icon">📄</span>
+        <span class="btn-text">导出PDF</span>
+      </button>
+      <a href="index.html" class="back-link">← 返回菜谱首页</a>
+    </section>
+
+    <section class="custom-selector" id="customSelector" style="display: none;">
+      <div class="selector-header">
+        <h3>📋 选择您想要的菜品</h3>
+        <div class="selector-tips">
+          <span>已选: <strong id="selectedCount">0</strong>/12</span>
+        </div>
+      </div>
+      <div class="category-filters">
+        <button class="filter-btn active" data-filter="all">全部</button>
+        <button class="filter-btn" data-filter="meat">荤菜</button>
+        <button class="filter-btn" data-filter="vegetable">素菜</button>
+        <button class="filter-btn" data-filter="soup">汤</button>
+        <button class="filter-btn" data-filter="staple">主食</button>
+        <button class="filter-btn" data-filter="snack">小吃</button>
+        <button class="filter-btn" data-filter="dessert">甜点</button>
+      </div>
+      <div class="available-recipes" id="availableRecipes"></div>
+      <div class="selected-recipes">
+        <h4>✅ 已选菜品</h4>
+        <div class="selected-list" id="selectedList"></div>
+        <button class="confirm-btn" id="confirmSelection" disabled>确认选择</button>
+        <button class="clear-btn" id="clearSelection">清空选择</button>
+      </div>
+    </section>
+
+    <section class="ai-result" id="aiResult" style="display: none;">
+      <div class="ai-header">
+        <h3>🤖 AI 智能时间规划分析</h3>
+        <button class="ai-close" id="aiClose">&times;</button>
+      </div>
+      <div class="ai-content" id="aiContent">
+        <div class="ai-loading">
+          <div class="ai-spinner"></div>
+          <p>AI 正在分析最优烹饪方案...</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="menu-preview" id="menuPreview">
+      <div class="empty-state">
+        <div class="empty-icon">🍽️</div>
+        <p>点击上方按钮生成吃席菜单</p>
+      </div>
+    </section>
+
+    <section class="menu-stats" id="menuStats" style="display: none;">
+      <div class="stat-item">
+        <span class="stat-label">荤菜</span>
+        <span class="stat-value" id="meatCount">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">素菜</span>
+        <span class="stat-value" id="vegetableCount">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">汤</span>
+        <span class="stat-value" id="soupCount">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">主食</span>
+        <span class="stat-value" id="stapleCount">0</span>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal" id="recipeModal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="recipes.js"></script>
+  <script src="feast.js"></script>
+</body>
+</html>

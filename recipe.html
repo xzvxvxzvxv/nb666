@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>菜谱详情 - 每日菜谱</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      padding: 0;
+    }
+
+    .recipe-detail-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 500;
+      transition: var(--transition);
+      margin-bottom: 30px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .back-btn:hover {
+      background: var(--primary-dark);
+      transform: translateX(-5px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .recipe-header {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .recipe-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+    }
+
+    .recipe-category {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      color: white;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    .recipe-category.staple { background: #f39c12; }
+    .recipe-category.vegetable { background: #26de81; }
+    .recipe-category.meat { background: #ff6b6b; }
+    .recipe-category.soup { background: #45aaf2; }
+    .recipe-category.snack { background: #fd79a8; }
+    .recipe-category.dessert { background: #a29bfe; }
+    .recipe-category.midnight { background: #fdcb6e; }
+
+    .recipe-title {
+      font-size: 2.5rem;
+      color: var(--text-dark);
+      margin: 0 0 15px 0;
+      font-weight: 700;
+    }
+
+    .recipe-desc {
+      font-size: 1.1rem;
+      color: var(--text-medium);
+      line-height: 1.8;
+      margin: 0 0 25px 0;
+    }
+
+    .recipe-meta {
+      display: flex;
+      gap: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      color: var(--text-medium);
+    }
+
+    .meta-item span:first-child {
+      font-size: 1.3rem;
+    }
+
+    .recipe-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    @media (max-width: 768px) {
+      .recipe-content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .content-section {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      color: var(--text-dark);
+      margin: 0 0 25px 0;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ingredients-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .ingredients-list li {
+      padding: 12px 18px;
+      background: #f8f9fa;
+      border-radius: var(--radius-md);
+      color: var(--text-dark);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition);
+    }
+
+    .ingredients-list li:hover {
+      background: #f0f0f0;
+      transform: translateX(5px);
+    }
+
+    .ingredients-list li::before {
+      content: '🥄';
+      font-size: 1rem;
+    }
+
+    .steps-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      counter-reset: step-counter;
+      display: grid;
+      gap: 20px;
+    }
+
+    .steps-list li {
+      position: relative;
+      padding: 20px 20px 20px 70px;
+      background: #f8f9fa;
+      border-radius: var(--radius-md);
+      color: var(--text-dark);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      counter-increment: step-counter;
+      transition: var(--transition);
+    }
+
+    .steps-list li:hover {
+      background: #f0f0f0;
+      transform: translateX(5px);
+    }
+
+    .steps-list li::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .not-found {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .not-found h2 {
+      color: var(--text-dark);
+      margin-bottom: 20px;
+    }
+
+    .not-found p {
+      color: var(--text-medium);
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="recipe-detail-container" id="recipeDetail">
+    <a href="index.html" class="back-btn">← 返回菜谱</a>
+    <div class="not-found">
+      <h2>菜谱不存在</h2>
+      <p>请从菜谱列表中选择一道菜查看详情</p>
+      <a href="index.html" class="back-btn">返回首页</a>
+    </div>
+  </div>
+
+  <script src="recipes.js"></script>
+  <script>
+    function getRecipeIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return parseInt(params.get('id'));
+    }
+
+    function renderRecipeDetail() {
+      const id = getRecipeIdFromUrl();
+      const recipe = recipes.find(r => r.id === id);
+      const container = document.getElementById('recipeDetail');
+
+      if (!recipe) {
+        return;
+      }
+
+      container.innerHTML = `
+        <a href="index.html" class="back-btn">← 返回菜谱</a>
+
+        <div class="recipe-header">
+          <span class="recipe-category ${recipe.category}">${recipe.categoryName}</span>
+          <h1 class="recipe-title">${recipe.name}</h1>
+          <p class="recipe-desc">${recipe.description}</p>
+          <div class="recipe-meta">
+            <div class="meta-item">
+              <span>⏱</span>
+              <span>用时：${recipe.time}</span>
+            </div>
+            <div class="meta-item">
+              <span>📊</span>
+              <span>难度：${recipe.difficulty}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="recipe-content">
+          <div class="content-section">
+            <h2 class="section-title">🥗 食材准备</h2>
+            <ul class="ingredients-list">
+              ${recipe.ingredients.map(i => `<li>${i}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="content-section">
+            <h2 class="section-title">👨‍🍳 制作步骤</h2>
+            <ol class="steps-list">
+              ${recipe.steps.map(s => `<li>${s}</li>`).join('')}
+            </ol>
+          </div>
+        </div>
+      `;
+
+      document.title = `${recipe.name} - 每日菜谱`;
+    }
+
+    renderRecipeDetail();
+  </script>
+</body>
+</html>
