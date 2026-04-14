@@ -697,7 +697,17 @@ function renderTimeline(data) {
 function renderIngredientTable(data) {
   // 检查是否为真正的食材清单格式
   const validCategories = ['蔬菜类', '肉禽类', '水产蛋类', '菌菇豆制品类', '调味干货类', '主食及其他'];
-  const hasValidCategory = Object.keys(data).some(key => validCategories.includes(key));
+  const hasValidCategory = Object.keys(data).some(key => {
+    // 检查是否包含有效的食材分类，或者是否包含 name、amount 字段的数组
+    if (validCategories.includes(key)) {
+      return true;
+    }
+    // 检查是否为包含 name、amount 字段的数组
+    if (Array.isArray(data[key])) {
+      return data[key].some(item => item.name && item.amount);
+    }
+    return false;
+  });
   
   if (!hasValidCategory) {
     return '';
