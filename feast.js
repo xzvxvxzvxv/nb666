@@ -694,6 +694,14 @@ function renderTimeline(data) {
 }
 
 function renderIngredientTable(data) {
+  // 检查是否为真正的食材清单格式
+  const validCategories = ['蔬菜类', '肉禽类', '水产蛋类', '菌菇豆制品类', '调味干货类', '主食及其他'];
+  const hasValidCategory = Object.keys(data).some(key => validCategories.includes(key));
+  
+  if (!hasValidCategory) {
+    return '';
+  }
+
   const categoryIcons = {
     '蔬菜类': '🥬',
     '肉禽类': '🍖',
@@ -739,8 +747,8 @@ function renderIngredientTable(data) {
           <tbody>
             ${items.map(item => `
               <tr>
-                <td><strong>${item.name}</strong></td>
-                <td>${item.amount}</td>
+                <td><strong>${item.name || ''}</strong></td>
+                <td>${item.amount || ''}</td>
                 <td>${item.note || '-'}</td>
               </tr>
             `).join('')}
