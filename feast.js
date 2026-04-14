@@ -558,7 +558,12 @@ function formatAIResponse(text) {
       } else if (jsonData.timeline) {
         timelineHTML = renderTimeline(jsonData);
       } else {
-        ingredientTable = renderIngredientTable(jsonData);
+        // 只处理真正的食材清单，避免处理其他JSON
+        const validCategories = ['蔬菜类', '肉禽类', '水产蛋类', '菌菇豆制品类', '调味干货类', '主食及其他'];
+        const hasValidCategory = Object.keys(jsonData).some(key => validCategories.includes(key));
+        if (hasValidCategory) {
+          ingredientTable = renderIngredientTable(jsonData);
+        }
       }
       textWithoutJson = textWithoutJson.replace(match[0], '').trim();
     } catch (e) {
