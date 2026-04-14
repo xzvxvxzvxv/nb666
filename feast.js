@@ -239,6 +239,7 @@ async function exportPDF() {
     const canvas = await html2canvas(pdfContainer, {
       scale: 2,
       useCORS: true,
+      allowTaint: true,
       backgroundColor: '#ffffff',
       windowWidth: 800,
       width: 800
