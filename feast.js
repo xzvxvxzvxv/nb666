@@ -459,20 +459,21 @@ async function analyzeWithAI() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ms-d2c12a44-8862-49e8-9f0e-a4c722ed109d'
+        'Authorization': 'Bearer ms-e9af9b90-3e35-458f-9aac-74632f47ac84'
       },
       body: JSON.stringify({
-        model: 'deepseek-ai/DeepSeek-V3.2',
+        model: 'Qwen/Qwen3-Next-80B-A3B-Instruct',
         messages: [
+          {
+            role: 'system',
+            content: 'You are a helpful assistant.'
+          },
           {
             role: 'user',
             content: prompt
           }
         ],
-        stream: true,
-        extra_body: {
-          enable_thinking: true
-        }
+        stream: true
       })
     });
 
