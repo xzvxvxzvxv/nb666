@@ -332,25 +332,26 @@ function buildAIPrompt() {
 \`\`\`json
 {
   "蔬菜类": [
-    {"name": "西红柿", "amount": "1.5kg", "note": "约10个中等"},
-    {"name": "土豆", "amount": "1kg", "note": "约5个"}
+    {
+      "name": "商品名称（必填）",
+      "amount": "数量+单位（如：1.5kg、10个、2瓶）",
+      "note": "备注信息（可选，如：规格、用途、购买要求）"
+    }
   ],
   "肉禽类": [
-    {"name": "五花肉", "amount": "1kg", "note": "红烧用"},
-    {"name": "鸡胸肉", "amount": "500g", "note": "切丝"}
+    {"name": "", "amount": "", "note": ""}
   ],
   "水产蛋类": [
-    {"name": "鸡蛋", "amount": "10个", "note": ""}
+    {"name": "", "amount": "", "note": ""}
   ],
   "菌菇豆制品类": [
-    {"name": "豆腐", "amount": "2块", "note": "嫩豆腐"}
+    {"name": "", "amount": "", "note": ""}
   ],
   "调味干货类": [
-    {"name": "食用油", "amount": "500ml", "note": ""},
-    {"name": "生抽", "amount": "200ml", "note": ""}
+    {"name": "", "amount": "", "note": ""}
   ],
   "主食及其他": [
-    {"name": "大米", "amount": "1kg", "note": ""}
+    {"name": "", "amount": "", "note": ""}
   ]
 }
 \`\`\`
@@ -364,13 +365,22 @@ JSON之后，用简短文字说明食材准备要点。
 {
   "dishes": [
     {
-      "name": "酸甜虎皮扣肉",
-      "prepTime": "35分钟",
-      "activeTime": "15分钟",
-      "passiveTime": "125分钟",
-      "totalTime": "175分钟",
-      "parallelPotential": "极高",
-      "parallelNote": "浸泡和蒸制期间可完成几乎所有其他任务"
+      "name": "菜品名称（必填）",
+      "prepTime": "准备时间（食材处理、腌制等）",
+      "activeTime": "主动操作时间（翻炒、调味等）",
+      "passiveTime": "被动等待时间（浸泡、蒸制、炖煮等）",
+      "totalTime": "总耗时",
+      "parallelPotential": "并行潜力（极高/高/中/低/无）",
+      "parallelNote": "并行操作说明（可选，如：炖煮期间可切配其他菜）"
+    },
+    {
+      "name": "",
+      "prepTime": "",
+      "activeTime": "",
+      "passiveTime": "",
+      "totalTime": "",
+      "parallelPotential": "",
+      "parallelNote": ""
     }
   ]
 }
@@ -395,16 +405,16 @@ JSON之后，用简短文字说明时间规划要点。
 {
   "timeline": [
     {
-      "timeRange": "0:00-0:10",
-      "activeTask": "启动炖汤、红烧肉等被动任务，淘米煮饭",
-      "passiveTask": "无",
-      "helperTask": "准备调料碗、检查食材"
+      "timeRange": "时间区间（格式：X:XX-X:XX，从0:00开始计时）",
+      "activeTask": "必须亲自操作的核心任务（必填）",
+      "passiveTask": "无需看管的后台任务（如炖煮、蒸制）",
+      "helperTask": "可穿插进行的辅助任务（如备料、整理）"
     },
     {
-      "timeRange": "0:10-0:40",
-      "activeTask": "统一洗切所有蔬菜及肉类",
-      "passiveTask": "炖汤、红烧肉继续",
-      "helperTask": "洗锅、整理台面"
+      "timeRange": "",
+      "activeTask": "",
+      "passiveTask": "",
+      "helperTask": ""
     }
   ]
 }
